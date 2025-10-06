@@ -2,7 +2,7 @@
 
 import { Tiktoken } from "js-tiktoken/lite";
 import o200k_base from "js-tiktoken/ranks/o200k_base";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Code } from "@/app/Code";
 import { TokensTable } from "./TokensTable";
@@ -11,6 +11,20 @@ const Tokenizer = new Tiktoken(o200k_base);
 
 export function HomeComponent() {
   const [inputText, setInputText] = useState("How are you today?");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const moveCursorToEnd = () => {
+    if (inputRef.current) {
+      const length = inputRef.current.value.length;
+      inputRef.current.setSelectionRange(length, length);
+      inputRef.current.focus();
+    }
+  };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: It's fine to use an empty dependency array here.
+  useEffect(() => {
+    moveCursorToEnd();
+  }, []);
 
   const tokenIDs = Tokenizer.encode(inputText);
   const tokenStrings = tokenIDs.flatMap((token) => Tokenizer.decode([token]));
@@ -36,11 +50,13 @@ export function HomeComponent() {
           Enter some text to see how it's tokenized:
           <br />
           <Input
+            ref={inputRef}
             className="w-[400px] -ml-0"
             type="text"
             name="inputText"
             value={inputText}
             placeholder="Text to tokenize"
+            autoFocus
             onChange={(e) => {
               setInputText(e.target.value);
             }}
