@@ -24,9 +24,9 @@ const TOKENIZER_FUNCTIONS = {
 };
 
 const TOKENIZER_LABELS = {
-  "gpt-4o": "GPT-4o / GPT-4o-mini (o200k_base)",
+  "gpt-4o": "GPT-5 / GPT-4.1 /GPT-4o / GPT-4o-mini (o200k_base)",
   "gpt-4": "GPT-4 / GPT-3.5-turbo (cl100k_base)",
-  "gpt-3": "GPT-3 / Codex (p50k_base)",
+  "gpt-2": "GPT-2 (r50k_base)",
 };
 
 export function HomeComponent() {
