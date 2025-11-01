@@ -1,8 +1,6 @@
 {
   "permissions": {
-    "allow": [
-      "WebFetch(domain:www.stefanwille.com)"
-    ],
+    "allow": ["WebFetch(domain:www.stefanwille.com)"],
     "deny": [],
     "ask": []
   }
