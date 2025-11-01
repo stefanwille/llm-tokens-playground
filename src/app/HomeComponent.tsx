@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import * as cl100k from "gpt-tokenizer/encoding/cl100k_base";
-import * as o200k from "gpt-tokenizer/encoding/o200k_base";
-import * as p50k from "gpt-tokenizer/encoding/p50k_base";
+import * as cl100k_base from "gpt-tokenizer/encoding/cl100k_base";
+import * as o200k_base from "gpt-tokenizer/encoding/o200k_base";
+import * as r50k_base from "gpt-tokenizer/encoding/r50k_base";
 import { Code } from "@/app/Code";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,24 +15,27 @@ import {
 } from "@/components/ui/select";
 import { TokensTable } from "./TokensTable";
 
-type TokenizerType = "gpt-4o" | "gpt-4" | "gpt-3";
 
 const TOKENIZER_FUNCTIONS = {
-  "gpt-4o": o200k,
-  "gpt-4": cl100k,
-  "gpt-3": p50k,
+  "o200k_base": o200k_base,
+  "cl100k_base": cl100k_base,
+  "r50k_base": r50k_base,
 };
 
+type TokenizerType = keyof typeof TOKENIZER_FUNCTIONS;
+
+
+
 const TOKENIZER_LABELS = {
-  "gpt-4o": "GPT-5 / GPT-4.1 /GPT-4o / GPT-4o-mini (o200k_base)",
-  "gpt-4": "GPT-4 / GPT-3.5-turbo (cl100k_base)",
-  "gpt-2": "GPT-2 (r50k_base)",
+  "o200k_base": "GPT-5 / GPT-4.1 /GPT-4o / GPT-4o-mini (o200k_base)",
+  "cl100k_base": "GPT-4 / GPT-3.5-turbo (cl100k_base)",
+  "r50k_base": "GPT-2 (r50k_base)",
 };
 
 export function HomeComponent() {
   const [inputText, setInputText] = useState("How are you today?");
   const [selectedTokenizer, setSelectedTokenizer] =
-    useState<TokenizerType>("gpt-4o");
+    useState<TokenizerType>("o200k_base");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const moveCursorToEnd = () => {
