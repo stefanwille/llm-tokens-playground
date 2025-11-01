@@ -6,6 +6,13 @@ import * as p50k from "gpt-tokenizer/encoding/p50k_base";
 import { useState } from "react";
 import { Code } from "@/app/Code";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { TokensTable } from "./TokensTable";
 
 type TokenizerType = "gpt-4o" | "gpt-4" | "gpt-3";
@@ -63,27 +70,30 @@ export function HomeComponent() {
             }}
           />
           <div className="mb-4"></div>
-          <div className="mb-4">
+          <div className="mb-4 space-y-2">
             <label
               htmlFor="tokenizer-select"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block text-sm font-medium text-gray-900 dark:text-white"
             >
               Select Tokenizer:
             </label>
-            <select
-              id="tokenizer-select"
+            <Select
               value={selectedTokenizer}
-              onChange={(e) =>
-                setSelectedTokenizer(e.target.value as TokenizerType)
+              onValueChange={(value) =>
+                setSelectedTokenizer(value as TokenizerType)
               }
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[400px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              {Object.entries(TOKENIZER_LABELS).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-[400px]">
+                <SelectValue placeholder="Select a tokenizer" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(TOKENIZER_LABELS).map(([value, label]) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <div>
