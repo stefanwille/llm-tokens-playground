@@ -1,40 +1,36 @@
 "use client";
 
-import { Tiktoken } from "js-tiktoken/lite";
-import cl100k_base from "js-tiktoken/ranks/cl100k_base";
-import o200k_base from "js-tiktoken/ranks/o200k_base";
-import p50k_base from "js-tiktoken/ranks/p50k_base";
-import { useMemo, useState } from "react";
+import * as cl100k from "gpt-tokenizer/encoding/cl100k_base";
+import * as o200k from "gpt-tokenizer/encoding/o200k_base";
+import * as p50k from "gpt-tokenizer/encoding/p50k_base";
+import { useState } from "react";
 import { Code } from "@/app/Code";
 import { Input } from "@/components/ui/input";
 import { TokensTable } from "./TokensTable";
 
-type TokenizerType = "o200k_base" | "cl100k_base" | "p50k_base";
+type TokenizerType = "gpt-4o" | "gpt-4" | "gpt-3";
 
-const TOKENIZER_ENCODINGS = {
-  o200k_base: o200k_base,
-  cl100k_base: cl100k_base,
-  p50k_base: p50k_base,
+const TOKENIZER_FUNCTIONS = {
+  "gpt-4o": o200k,
+  "gpt-4": cl100k,
+  "gpt-3": p50k,
 };
 
 const TOKENIZER_LABELS = {
-  o200k_base: "o200k_base (GPT-4o, GPT-4o-mini)",
-  cl100k_base: "cl100k_base (GPT-4, GPT-3.5-turbo)",
-  p50k_base: "p50k_base (GPT-3, Codex)",
+  "gpt-4o": "GPT-4o / GPT-4o-mini (o200k_base)",
+  "gpt-4": "GPT-4 / GPT-3.5-turbo (cl100k_base)",
+  "gpt-3": "GPT-3 / Codex (p50k_base)",
 };
 
 export function HomeComponent() {
   const [inputText, setInputText] = useState("How are you today?");
   const [selectedTokenizer, setSelectedTokenizer] =
-    useState<TokenizerType>("o200k_base");
+    useState<TokenizerType>("gpt-4o");
 
-  const tokenizer = useMemo(
-    () => new Tiktoken(TOKENIZER_ENCODINGS[selectedTokenizer]),
-    [selectedTokenizer],
-  );
+  const { encode, decode } = TOKENIZER_FUNCTIONS[selectedTokenizer];
 
-  const tokenIDs = tokenizer.encode(inputText);
-  const tokenStrings = tokenIDs.flatMap((token) => tokenizer.decode([token]));
+  const tokenIDs = encode(inputText);
+  const tokenStrings = tokenIDs.map((token) => decode([token]));
 
   return (
     <div className="">
