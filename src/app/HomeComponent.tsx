@@ -78,7 +78,7 @@ export function HomeComponent() {
           <br />
           <Input
             ref={inputRef}
-            className="w-[400px] -ml-0"
+            className="w-full md:w-[400px] -ml-0"
             type="text"
             name="inputText"
             value={inputText}
@@ -102,7 +102,7 @@ export function HomeComponent() {
                 setSelectedTokenizer(value as TokenizerType)
               }
             >
-              <SelectTrigger className="w-[400px]">
+              <SelectTrigger className="w-full md:w-[400px]">
                 <SelectValue placeholder="Select a tokenizer" />
               </SelectTrigger>
               <SelectContent>
