@@ -1,38 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import * as cl100k_base from "gpt-tokenizer/encoding/cl100k_base";
 import * as o200k_base from "gpt-tokenizer/encoding/o200k_base";
-import * as r50k_base from "gpt-tokenizer/encoding/r50k_base";
 import { Code } from "@/app/Code";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { TokensTable } from "./TokensTable";
-
-const TOKENIZER_FUNCTIONS = {
-  o200k_base: o200k_base,
-  cl100k_base: cl100k_base,
-  r50k_base: r50k_base,
-};
-
-type TokenizerType = keyof typeof TOKENIZER_FUNCTIONS;
-
-const TOKENIZER_LABELS = {
-  o200k_base: "GPT-5 / GPT-4.1 /GPT-4o / GPT-4o-mini (o200k_base)",
-  cl100k_base: "GPT-4 / GPT-3.5-turbo (cl100k_base)",
-  r50k_base: "GPT-2 (r50k_base)",
-};
 
 export function HomeComponent() {
   const [inputText, setInputText] = useState("How are you today?");
-  const [selectedTokenizer, setSelectedTokenizer] =
-    useState<TokenizerType>("o200k_base");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const moveCursorToEnd = () => {
@@ -48,14 +23,10 @@ export function HomeComponent() {
     moveCursorToEnd();
   }, []);
 
-  const { encode, decode } = TOKENIZER_FUNCTIONS[selectedTokenizer];
+  const { encode, decode } = o200k_base;
 
   const tokenIDs = encode(inputText);
   const tokenStrings = tokenIDs.map((token) => decode([token]));
-
-  console.log("selectedTokenizer:", selectedTokenizer);
-  console.log("tokenIDs:", tokenIDs);
-  console.log("tokenStrings:", tokenStrings);
 
   return (
     <div className="">
@@ -90,34 +61,6 @@ export function HomeComponent() {
             }}
           />
           <div className="mb-4"></div>
-          <div className="mb-4 space-y-2">
-            <label
-              htmlFor="tokenizer-select"
-              className="block text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Select Tokenizer:
-            </label>
-            <Select
-              value={selectedTokenizer}
-              onValueChange={(value) =>
-                setSelectedTokenizer(value as TokenizerType)
-              }
-            >
-              <SelectTrigger className="w-full md:w-[400px]">
-                <SelectValue placeholder="Select a tokenizer" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(TOKENIZER_LABELS).map(([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Currently selected: {selectedTokenizer}
-            </p>
-          </div>
         </div>
         <div>
           The LLM encodes your text as a sequence of tokens, of small text
