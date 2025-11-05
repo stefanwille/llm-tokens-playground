@@ -15,21 +15,18 @@ import {
 } from "@/components/ui/select";
 import { TokensTable } from "./TokensTable";
 
-
 const TOKENIZER_FUNCTIONS = {
-  "o200k_base": o200k_base,
-  "cl100k_base": cl100k_base,
-  "r50k_base": r50k_base,
+  o200k_base: o200k_base,
+  cl100k_base: cl100k_base,
+  r50k_base: r50k_base,
 };
 
 type TokenizerType = keyof typeof TOKENIZER_FUNCTIONS;
 
-
-
 const TOKENIZER_LABELS = {
-  "o200k_base": "GPT-5 / GPT-4.1 /GPT-4o / GPT-4o-mini (o200k_base)",
-  "cl100k_base": "GPT-4 / GPT-3.5-turbo (cl100k_base)",
-  "r50k_base": "GPT-2 (r50k_base)",
+  o200k_base: "GPT-5 / GPT-4.1 /GPT-4o / GPT-4o-mini (o200k_base)",
+  cl100k_base: "GPT-4 / GPT-3.5-turbo (cl100k_base)",
+  r50k_base: "GPT-2 (r50k_base)",
 };
 
 export function HomeComponent() {
@@ -56,6 +53,10 @@ export function HomeComponent() {
   const tokenIDs = encode(inputText);
   const tokenStrings = tokenIDs.map((token) => decode([token]));
 
+  console.log("selectedTokenizer:", selectedTokenizer);
+  console.log("tokenIDs:", tokenIDs);
+  console.log("tokenStrings:", tokenStrings);
+
   return (
     <div className="">
       <header>
@@ -78,7 +79,7 @@ export function HomeComponent() {
           <br />
           <Input
             ref={inputRef}
-            className="w-full md:w-[400px] -ml-0"
+            className="w-full md:w-[500px]  -ml-0"
             type="text"
             name="inputText"
             value={inputText}
@@ -113,6 +114,9 @@ export function HomeComponent() {
                 ))}
               </SelectContent>
             </Select>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Currently selected: {selectedTokenizer}
+            </p>
           </div>
         </div>
         <div>

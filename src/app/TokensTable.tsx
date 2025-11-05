@@ -15,7 +15,7 @@ interface TokensTableProps {
 
 export function TokensTable({ tokenIDs, tokenStrings }: TokensTableProps) {
   return (
-    <Table>
+    <Table className="w-full md:w-[500px] -ml-0 ">
       <TableHeader>
         <TableRow>
           <TableHead className="w-[20px]">Index</TableHead>
