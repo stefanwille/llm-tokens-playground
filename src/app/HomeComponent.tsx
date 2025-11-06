@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import * as o200k_base from "gpt-tokenizer/encoding/o200k_base";
+import { useEffect, useRef, useState } from "react";
 import { Code } from "@/app/Code";
 import { Input } from "@/components/ui/input";
 import { TokensTable } from "./TokensTable";
