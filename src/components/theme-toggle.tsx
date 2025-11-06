@@ -1,10 +1,23 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "./theme-provider";
 
 export function ThemeToggle() {
+  const [mounted, setMounted] = useState(false);
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Prevent SSR rendering to avoid hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="rounded-md p-2 w-9 h-9" aria-hidden="true" />
+    );
+  }
 
   return (
     <button
