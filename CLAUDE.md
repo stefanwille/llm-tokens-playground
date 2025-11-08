@@ -4,14 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Next.js 15 application demonstrating LLM tokenization using the `js-tiktoken` library. The app provides an interactive UI where users can input text and see how it's tokenized using the o200k_base encoding, visualizing the token-to-text mapping.
+This is a Next.js 15 application demonstrating LLM tokenization using the `gpt-tokenizer` library. The app provides an interactive UI where users can input text and see how it's tokenized using the o200k_base encoding, visualizing the token-to-text mapping.
 
 ## Architecture
 
 - **Next.js 15 App Router**: Uses the new App Router architecture with `src/app/` as the root
 - **Client Components**: Main functionality in `HomeComponent.tsx` (src/app/HomeComponent.tsx:1) uses "use client" directive for interactivity
 - **UI Components**: shadcn/ui components in `src/components/ui/` (Table, Input)
-- **Tokenization**: js-tiktoken library with o200k_base encoding, initialized as a module-level singleton (src/app/HomeComponent.tsx:19)
+- **Tokenization**: `gpt-tokenizer` library with o200k_base encoding imported from `gpt-tokenizer/encoding/o200k_base`, initialized as a module-level singleton (src/app/HomeComponent.tsx:19)
+- **Dark Mode**: Theme provider wraps the app, using Tailwind class-based strategy with localStorage persistence and system preference fallback
 
 ## Key Commands
 
@@ -34,7 +35,7 @@ pnpm format       # Format code with Biome
 - TypeScript 5
 - Tailwind CSS 4
 - Biome (linting/formatting)
-- js-tiktoken for tokenization
+- gpt-tokenizer for tokenization
 - shadcn/ui components
 - Turbopack bundler
 
@@ -42,9 +43,31 @@ pnpm format       # Format code with Biome
 
 - `src/app/page.tsx` - Root page component (wrapper)
 - `src/app/HomeComponent.tsx` - Main tokenization demo logic
+- `src/app/layout.tsx` - Root layout with theme provider
+- `src/components/theme-provider.tsx` - Theme context and management
+- `src/components/theme-toggle.tsx` - Theme toggle button
 - `src/components/ui/` - shadcn/ui components (table, input)
 - `src/components/Code.tsx` - Custom code display component
 - `src/lib/utils.ts` - Utility functions (cn helper)
+
+## Dark Mode Implementation
+
+- Context-based theme management (`src/components/theme-provider.tsx`)
+- Tailwind class-based strategy using `dark:` utilities
+- Theme persisted in localStorage with system preference fallback
+- Uses `suppressHydrationWarning` on html element to prevent hydration mismatches
+- Theme toggle component in header (`src/components/theme-toggle.tsx`)
+
+## TypeScript Configuration
+
+- Path alias `@/*` maps to `./src/*`
+- Strict mode enabled
+- Target: ES2017
+- Module resolution: bundler (Next.js 13+)
+
+## Testing
+
+No test framework currently configured. Add vitest or jest if tests are needed.
 
 ## Biome Configuration
 
