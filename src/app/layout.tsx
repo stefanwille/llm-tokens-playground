@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClientHeader } from "@/components/client-header";
 import { ClientSidebar } from "@/components/client-sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -72,6 +73,7 @@ export default function RootLayout({
             </div>
           </footer>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
