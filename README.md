@@ -22,4 +22,4 @@ Deployed on Vercel.
 
 ## Kudos
 
-Built with the Tiktoken tokenizer library: https://github.com/dqbd/tiktoken
+Built with the gpt-tokenizer library: https://github.com/niieani/gpt-tokenizer
